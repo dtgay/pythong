@@ -22,6 +22,6 @@ setup(name='pythong',
       packages=find_packages(exclude=['ez_setup', 'tests']),
       include_package_data=True,
       zip_safe=False,
-      install_requires=[],
+      install_requires=["nose"],
       #entry_points="""
       )
