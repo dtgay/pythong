@@ -38,3 +38,7 @@ class Project(object):
             os.mkdir(dir)
         for f in self.files:
             self.init_file = open(f, 'w').close()
+
+        # Create setup.py file
+        from pythong.util import generate_setup_file
+        generate_setup_file()

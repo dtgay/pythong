@@ -15,7 +15,7 @@ def parse_args():
     new_project = Project(args.name)
 
 
-def ask_yes_no(message, default="yes"):
+def ask_yes_no(message, default=None):
     """ Prompt the user for a boolean response.
         Thanks to this useful recipe for help:
             http://code.activestate.com/recipes/577058/
@@ -35,16 +35,19 @@ def ask_yes_no(message, default="yes"):
         raise ValueError("Invalid default answer: {}".format(default))
 
     while True:
-        print message + prompt
+        print message + prompt,
         choice = raw_input().lower()
         if default is not None and choice == '':
             return valid[default]
         elif choice in valid:
             return valid[choice]
         else:
-            print "Please respond with 'yes' or 'no' \
-                    (or 'y' or 'n')."
+            print "Please respond with 'yes', 'no', 'y', or 'n'."
 
 
 def generate_setup_file():
-    pass # mmm, pass
+    wants_help = ask_yes_no("Would you like help creating a setup.py file?")
+    if wants_help:
+        print "I will help!"
+    else:
+        print "I won't help."
