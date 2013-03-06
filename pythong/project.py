@@ -20,7 +20,7 @@ class Project(object):
         self.tests_dir = join(self.project_dir, "tests")
 
         self.directories = [self.project_dir, self.bin_dir, self.docs_dir,
-                        self.source_dir, self.tests_dir]
+                            self.source_dir, self.tests_dir]
 
         # Files
         self.setup_file = join(self.project_dir, "setup.py")
@@ -28,14 +28,14 @@ class Project(object):
         self.test_init_file = join(self.tests_dir, "__init__.py")
         self.test_file = join(self.tests_dir, self.name + "_tests.py")
 
-        self.files = [self.setup_file, self.init_file,
-                        self.test_init_file, self.test_file]
+        self.files = [self.setup_file, self.init_file, self.test_init_file,
+                      self.test_file]
 
         # Create project skeleton
         print "Creating structure for new Python project {}.".format(
-                self.name)
-        for dir in self.directories:
-            os.mkdir(dir)
+            self.name)
+        for dirname in self.directories:
+            os.mkdir(dirname)
         for f in self.files:
             self.init_file = open(f, 'w').close()
 
