@@ -1,3 +1,5 @@
+#!/bin/env python
+# -*- coding: utf8 -*-
 """
 Contains utility functions used by pythong, including
 command parsing.

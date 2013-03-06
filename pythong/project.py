@@ -1,3 +1,5 @@
+#!/bin/env python
+# -*- coding: utf8 -*-
 import os
 from os.path import join
 import pythong.util
