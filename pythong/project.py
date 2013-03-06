@@ -1,5 +1,6 @@
 import os
 from os.path import join
+import pythong.util
 
 _here = os.getcwd()
 
@@ -40,8 +41,8 @@ class Project(object):
             self.init_file = open(f, 'w').close()
 
         # Create setup.py file
-        wants_help = ask_yes_no(
-                "Would you like help creating a setup.py file?")
+        wants_help = pythong.util.ask_yes_no(
+            "Would you like help creating a setup.py file?")
         if wants_help:
             print "I will help!"
         else:
