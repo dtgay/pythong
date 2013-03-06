@@ -23,5 +23,7 @@ setup(name='pythong',
       include_package_data=True,
       zip_safe=False,
       install_requires=["nose"],
-      #entry_points="""
-      )
+      entry_points="""
+      [console_scripts]
+      pythong = pythong.util:parse_args
+      """)
