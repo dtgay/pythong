@@ -1,0 +1,43 @@
+#!/bin/env python
+# -*- coding: {{ proect.encoding }} -*-
+from setuptools import setup, find_packages
+
+version = "{{ project.version }}"
+
+setup(
+    name="{{ project.shortname }}",
+    version=version,
+    description="{{ wordwrap(project.description, width=79,
+                             break_long_words=True) }}",
+    classifiers=[
+    {% for tag in project.classifiers %}
+        "{{ tag }}",
+    {% endfor %}
+    ],
+    keywords="{{ project.keywords.join(" ") }}",
+    author="{{ project.author }}",
+    author_email="{{ project.email }}",
+    url="{{ project.url }}",
+    license="{{ project.license }}",
+    packages=find_packages(
+    {% if exclude %}
+        exclude=[
+        {% for exclude in project.excludes %}
+            "{{ exclude }}",
+        {% endfor %}
+        ]
+    {% endif %}
+    ),
+    include_package_data=True,
+    zip_safe=False,
+    install_requires=[
+    {% for req in project.requires %}
+        "{{ req }}",
+    {% endfor %}
+    ],
+    #TODO: Deal with entry_points
+    #entry_points="""
+    #[console_scripts]
+    #pythong = pythong.util:parse_args
+    #"""
+)
