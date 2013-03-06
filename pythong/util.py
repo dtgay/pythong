@@ -43,11 +43,3 @@ def ask_yes_no(message, default=None):
             return valid[choice]
         else:
             print "Please respond with 'yes', 'no', 'y', or 'n'."
-
-
-def generate_setup_file():
-    wants_help = ask_yes_no("Would you like help creating a setup.py file?")
-    if wants_help:
-        print "I will help!"
-    else:
-        print "I won't help."
