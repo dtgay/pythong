@@ -18,11 +18,17 @@ class Project(object):
         self.source_dir = join(self.project_dir, name)
         self.tests_dir = join(self.project_dir, "tests")
 
-        # Create structure
+        self.directories = [self.project_dir, self.bin_dir, self.docs_dir,
+                        self.source_dir, self.tests_dir]
+
+        # Create project skeleton
         print "Creating structure for new Python project " + \
                 self.name
-        # Create directories
+        for dir in self.directories:
+            os.mkdir(dir)
+        """
         bash_command = "mkdir {0} {1} {2} {3} {4}".format(
                 self.project_dir, self.bin_dir, self.docs_dir,
                 self.source_dir, self.tests_dir)
         subprocess.Popen(bash_command, shell=True)
+        """
