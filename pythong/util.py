@@ -27,21 +27,16 @@ def ask_yes_no(message, default=None):
              "ye": True,
              "no": False,
              "n": False}
-    if default == None:
-        prompt = " [y/n] "
-    elif default == "yes":
+    if default:
         prompt = " [Y/n] "
-    elif default == "no":
-        prompt = " [y/N] "
+        valid[''] = True
     else:
-        raise ValueError("Invalid default answer: {}".format(default))
+        prompt = " [y/N] "
+        valid[''] = False
 
     while True:
         print message + prompt,
         choice = raw_input().lower()
-        if default is not None and choice == '':
-            return valid[default]
-        elif choice in valid:
+        if choice in valid:
             return valid[choice]
-        else:
-            print "Please respond with 'yes', 'no', 'y', or 'n'."
+        print "Please respond with 'yes', 'no', 'y', or 'n'."
