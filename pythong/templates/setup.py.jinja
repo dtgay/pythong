@@ -1,13 +1,9 @@
-#!/bin/env python
-{% if verbose %}
-Use http://en.wikipedia.org/wiki/Env instead of
-#!/usr/bin/python for extra portability.
-{% endif %}
-# -*- coding: {{ proect.encoding }} -*-
-{% if verbose %}
-Obey PEP263 http://www.python.org/dev/peps/pep-0263/ and put in an encoding
-line for popular editors.
-{% endif %}
+#!/bin/env python{% if verbose %}
+# Use http://en.wikipedia.org/wiki/Env instead of
+# "#!/usr/bin/python" for extra portability.{% endif %}
+# -*- coding: {{ project.encoding }} -*-{% if verbose %}
+# Obey PEP263 http://www.python.org/dev/peps/pep-0263/ and put in an encoding
+# line for popular editors.{% endif %}
 from setuptools import setup, find_packages
 
 version = "{{ project.version }}"
@@ -15,19 +11,15 @@ version = "{{ project.version }}"
 setup(
     name="{{ project.shortname }}",
     version=version,
-    description="{{ wordwrap(project.description, width=79,
-                             break_long_words=True) }}",
+    description="{{ project.description|wordwrap(79, true) }}",
     classifiers=[
-    {% for tag in project.classifiers %}
-        "{{ tag }}",
-    {% endfor %}
+        "{{ "\", \n        \"".join(project.classifiers) }}"
     ],
-    keywords="{{ project.keywords.join(" ") }}",
+    keywords="{{ " ".join(project.keywords) }}",
     author="{{ project.author }}",
     author_email="{{ project.email }}",
     url="{{ project.url }}",
-    license="{{ project.license }}",
-    {% if verbose %}
+    license="{{ project.license }}",{% if verbose %}
     # Make sure you pick a license for your project!
     # commonly selected licenses include the less permissive
     # MIT (http://opensource.org/licenses/MIT) and the more permissive
@@ -35,24 +27,18 @@ setup(
     # For help selecting a license, take a peek at
     # https://www.softwarefreedom.org/resources/2008/foss-primer.html
     # for an in-depth discussion about open source license options.
-    # For a list of licenses, look at http://opensource.org/licenses
-    {% endif %}
-    packages=find_packages(
-    {% if exclude %}
+    # For a list of licenses, look at http://opensource.org/licenses{% endif %}
+    packages=find_packages({% if project.excludes %}
         exclude=[
-        {% for exclude in project.excludes %}
-            "{{ exclude }}",
-        {% endfor %}
+            "{{ "\", \n            \"".join(project.excludes) }}"
         ]
     {% endif %}
     ),
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-    {% for req in project.requires %}
-        "{{ req }}",
-    {% endfor %}
-    ],
+        "{{ "\", \n        \"".join(project.requires) }}"
+    ]
     #TODO: Deal with entry_points
     #entry_points="""
     #[console_scripts]
