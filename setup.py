@@ -27,5 +27,5 @@ setup(name='pythong',
       install_requires=["nose"],
       entry_points="""
       [console_scripts]
-      pythong = pythong.util:parse_args
+      pythong = pythong:create_project
       """)

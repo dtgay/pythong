@@ -5,17 +5,6 @@ Contains utility functions used by pythong, including
 command parsing.
 """
 
-from pythong.project import Project
-
-import argparse
-
-
-def parse_args():
-    p = argparse.ArgumentParser()
-    p.add_argument("name")
-    args = p.parse_args()
-    new_project = Project(args.name)
-
 
 def ask_yes_no(message, default=None):
     """ Prompt the user for a boolean response.
@@ -40,3 +29,20 @@ def ask_yes_no(message, default=None):
         if choice in valid:
             return valid[choice]
         print "Please respond with 'yes', 'no', 'y', or 'n'."
+
+
+def prompt_input(prompt, default=None, expected=str):
+    """
+    If no default is given, the argumend is assumed to be required and will
+    always return something (no '', no [], etc)
+
+    The "expected" parameter must be a type (str, list, etc) and the prompt
+    will do its best to give you back data in that format.
+    """
+    while True:
+        raw = raw_input(prompt)
+        if default is None:
+            return None
+
+        if expected is str:
+            return str(raw)
