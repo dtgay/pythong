@@ -33,7 +33,7 @@ def ask_yes_no(message, default=None):
 
 def prompt_input(prompt, default=None, expected=str):
     """
-    If no default is given, the argumend is assumed to be required and will
+    If no default is given, the argument is assumed to be required and will
     always return something (no '', no [], etc)
 
     The "expected" parameter must be a type (str, list, etc) and the prompt
@@ -41,8 +41,8 @@ def prompt_input(prompt, default=None, expected=str):
     """
     while True:
         raw = raw_input(prompt)
-        if default is None:
-            return None
-
         if expected is str:
             return str(raw)
+
+        if default is None:
+            return None
