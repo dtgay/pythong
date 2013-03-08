@@ -1,3 +1,5 @@
+#!/bin/env python
+# -*- coding: utf8 -*-
 from nose.tools import *
 import pythong
 

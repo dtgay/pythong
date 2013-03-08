@@ -1,18 +1,9 @@
+#!/bin/env python
+# -*- coding: utf8 -*-
 """
 Contains utility functions used by pythong, including
 command parsing.
 """
-
-from pythong.project import Project
-
-import argparse
-
-
-def parse_args():
-    p = argparse.ArgumentParser()
-    p.add_argument("name")
-    args = p.parse_args()
-    new_project = Project(args.name)
 
 
 def ask_yes_no(message, default=None):
@@ -25,21 +16,33 @@ def ask_yes_no(message, default=None):
              "ye": True,
              "no": False,
              "n": False}
-    if default == None:
-        prompt = " [y/n] "
-    elif default == "yes":
+    if default:
         prompt = " [Y/n] "
-    elif default == "no":
-        prompt = " [y/N] "
+        valid[''] = True
     else:
-        raise ValueError("Invalid default answer: {}".format(default))
+        prompt = " [y/N] "
+        valid[''] = False
 
     while True:
         print message + prompt,
         choice = raw_input().lower()
-        if default is not None and choice == '':
-            return valid[default]
-        elif choice in valid:
+        if choice in valid:
             return valid[choice]
-        else:
-            print "Please respond with 'yes', 'no', 'y', or 'n'."
+        print "Please respond with 'yes', 'no', 'y', or 'n'."
+
+
+def prompt_input(prompt, default=None, expected=str):
+    """
+    If no default is given, the argumend is assumed to be required and will
+    always return something (no '', no [], etc)
+
+    The "expected" parameter must be a type (str, list, etc) and the prompt
+    will do its best to give you back data in that format.
+    """
+    while True:
+        raw = raw_input(prompt)
+        if default is None:
+            return None
+
+        if expected is str:
+            return str(raw)

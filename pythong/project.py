@@ -1,49 +1,100 @@
+#!/bin/env python
+# -*- coding: utf8 -*-
 import os
 from os.path import join
+from pythong.util import ask_yes_no, prompt_input
+# from jinja2 import Environment, PackageLoader
 
 _here = os.getcwd()
 
+# env = Environment(loader=PackageLoader('pythong', 'templates'))
+# t = env.get_template('setup.py.jinja')
+# print t.render(verbose=True, project=p)
 
-class Project(object):
+
+def prompt_new_project(name=None):
     """
-    A Python project.
+    sampleproject = dict(
+        encoding="utf8",
+        version="0.0.1",
+        shortname="pythong",
+        description="This is a description that has words",
+        classifiers=["thong", "wearing", "pythonistas"],
+        keywords=["more", "thong", "keywords"],
+        author="ryansb",
+        email="ryansb@csh.rit.edu",
+        url="github.com",
+        license="MIT",
+        requires=["nose", "pyramid"]
+    )
     """
+    project = dict()
 
-    def __init__(self, name):
-        self.name = name
+    if not name:
+        name = prompt_input("Project name: ")
 
-        # Directories
-        self.project_dir = join(_here, name)
-        self.bin_dir = join(self.project_dir, "bin")
-        self.docs_dir = join(self.project_dir, "docs")
-        self.source_dir = join(self.project_dir, name)
-        self.tests_dir = join(self.project_dir, "tests")
+    project['name'] = name
+    project['project_dir'] = join(_here, name)
+    project['directories'] = [project['project_dir']]
 
-        self.directories = [self.project_dir, self.bin_dir, self.docs_dir,
-                        self.source_dir, self.tests_dir]
+    if ask_yes_no("Would you like a bin directory?", default=True):
+        project['bin_dir'] = join(project['project_dir'], "bin")
+        project['directories'].append(project['bin_dir'])
 
-        # Files
-        self.setup_file = join(self.project_dir, "setup.py")
-        self.init_file = join(self.source_dir, "__init__.py")
-        self.test_init_file = join(self.tests_dir, "__init__.py")
-        self.test_file = join(self.tests_dir, self.name + "_tests.py")
+    if ask_yes_no("Would you like a tests directory?", default=True):
+        project['tests_dir'] = join(project['project_dir'], "tests")
+        project['directories'].append(project['tests_dir'])
 
-        self.files = [self.setup_file, self.init_file,
-                        self.test_init_file, self.test_file]
+    project['docs_dir'] = join(project['project_dir'], "docs")
+    project['source_dir'] = join(project['project_dir'], name)
 
-        # Create project skeleton
-        print "Creating structure for new Python project {}.".format(
-                self.name)
-        for dir in self.directories:
-            os.mkdir(dir)
-        for f in self.files:
-            self.init_file = open(f, 'w').close()
+    project['directories'].extend([project['docs_dir'], project['source_dir']])
 
-        # Create setup.py file
-        wants_help = ask_yes_no(
-                "Would you like help creating a setup.py file?")
-        if wants_help:
-            print "I will help!"
-        else:
-            print "Generating skeletal setup.py file."
-            #f = open(self.setup_file, 'w').write("try:\n
+    # Files
+    project['setup_file'] = join(project['project_dir'], "setup.py")
+    project['init_file'] = join(project['source_dir'], "__init__.py")
+    project['test_init_file'] = join(project['tests_dir'], "__init__.py")
+    project['test_file'] = join(project['tests_dir'], name + "_tests.py")
+
+    project['files'] = [project['setup_file'], project['init_file'],
+                        project['test_init_file'], project['test_file']]
+
+    # Create project skeleton
+    print "Creating structure for new Python project {}.".format(project.get("name"))
+    for dirname in project.get("directories", []):
+        os.mkdir(dirname)
+    for f in project.get("files", []):
+        project['init_file '] = open(f, 'w').close()
+
+    # Create setup.py file
+    if ask_yes_no("Would you like help creating a setup.py file?"):
+        print "I will help!"
+        dict(
+            encoding="",
+            version="",
+            shortname="",
+            description="",
+            classifiers=[],
+            keywords=[],
+            author="",
+            email="",
+            url="",
+            license="",
+            requires=[]
+        )
+    else:
+        project.update(dict(
+            encoding="",
+            version="",
+            shortname="",
+            description="",
+            classifiers=[],
+            keywords=[],
+            author="",
+            email="",
+            url="",
+            license="",
+            requires=[]
+        ))
+        print "Generating skeletal setup.py file."
+        #f = open(self.setup_file, 'w').write("try:\n

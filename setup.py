@@ -1,3 +1,5 @@
+#!/bin/env python
+# -*- coding: utf8 -*-
 from setuptools import setup, find_packages
 
 version = '0.0.1'
@@ -14,7 +16,7 @@ setup(name='pythong',
           "Topic :: Software Development",
           "Topic :: Utilities",
       ],
-      keywords='python development project',
+      keywords='python development project bootstrap',
       author='David Gay',
       author_email='oddshocks@gmail.com',
       url='http://github.com/oddshocks/pythong',
@@ -25,5 +27,5 @@ setup(name='pythong',
       install_requires=["nose"],
       entry_points="""
       [console_scripts]
-      pythong = pythong.util:parse_args
+      pythong = pythong:create_project
       """)
