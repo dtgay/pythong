@@ -65,10 +65,12 @@ def prompt_new_project(name=None, snap=False):
 
     project['files'] = [project['setup_file'], project['init_file']]
     if project.get('tests_dir'):
-        project['files'].extend([project['test_init_file'], project['test_file']])
+        project['files'].extend([project['test_init_file'],
+                                 project['test_file']])
 
     # Create project skeleton
-    print "Creating structure for new Python project {}.".format(project.get("name"))
+    print "Creating structure for new Python project {}.".format(
+            project.get("name"))
     for dirname in project.get("directories", []):
         os.mkdir(dirname)
     for f in project.get("files", []):
@@ -89,8 +91,7 @@ def prompt_new_project(name=None, snap=False):
                 email="",
                 url="",
                 license="",
-                requires=[]
-            )
+                requires=[])
         else:
             project.update(dict(
                 encoding="",
@@ -103,7 +104,6 @@ def prompt_new_project(name=None, snap=False):
                 email="",
                 url="",
                 license="",
-                requires=[]
-            ))
+                requires=[]))
             print "Generating skeletal setup.py file."
             #f = open(self.setup_file, 'w').write("try:\n
