@@ -53,11 +53,13 @@ def prompt_new_project(name=None):
     # Files
     project['setup_file'] = join(project['project_dir'], "setup.py")
     project['init_file'] = join(project['source_dir'], "__init__.py")
-    project['test_init_file'] = join(project['tests_dir'], "__init__.py")
-    project['test_file'] = join(project['tests_dir'], name + "_tests.py")
+    if project.get('tests_dir'):
+        project['test_init_file'] = join(project['tests_dir'], "__init__.py")
+        project['test_file'] = join(project['tests_dir'], name + "_tests.py")
 
-    project['files'] = [project['setup_file'], project['init_file'],
-                        project['test_init_file'], project['test_file']]
+    project['files'] = [project['setup_file'], project['init_file']]
+    if project.get('tests_dir'):
+        project['files'].extend([project['test_init_file'], project['test_file']])
 
     # Create project skeleton
     print "Creating structure for new Python project {}.".format(project.get("name"))
