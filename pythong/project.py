@@ -12,7 +12,7 @@ _here = os.getcwd()
 # print t.render(verbose=True, project=p)
 
 
-def prompt_new_project(name=None):
+def prompt_new_project(name=None, snap=False):
     """
     sampleproject = dict(
         encoding="utf8",
@@ -37,11 +37,17 @@ def prompt_new_project(name=None):
     project['project_dir'] = join(_here, name)
     project['directories'] = [project['project_dir']]
 
-    if ask_yes_no("Would you like a bin directory?", default=True):
+    if snap is False:
+        if ask_yes_no("Would you like a bin directory?", default=True):
+            project['bin_dir'] = join(project['project_dir'], "bin")
+            project['directories'].append(project['bin_dir'])
+
+        if ask_yes_no("Would you like a tests directory?", default=True):
+            project['tests_dir'] = join(project['project_dir'], "tests")
+            project['directories'].append(project['tests_dir'])
+    else:
         project['bin_dir'] = join(project['project_dir'], "bin")
         project['directories'].append(project['bin_dir'])
-
-    if ask_yes_no("Would you like a tests directory?", default=True):
         project['tests_dir'] = join(project['project_dir'], "tests")
         project['directories'].append(project['tests_dir'])
 
@@ -69,34 +75,35 @@ def prompt_new_project(name=None):
         project['init_file '] = open(f, 'w').close()
 
     # Create setup.py file
-    if ask_yes_no("Would you like help creating a setup.py file?"):
-        print "I will help!"
-        dict(
-            encoding="",
-            version="",
-            shortname="",
-            description="",
-            classifiers=[],
-            keywords=[],
-            author="",
-            email="",
-            url="",
-            license="",
-            requires=[]
-        )
-    else:
-        project.update(dict(
-            encoding="",
-            version="",
-            shortname="",
-            description="",
-            classifiers=[],
-            keywords=[],
-            author="",
-            email="",
-            url="",
-            license="",
-            requires=[]
-        ))
-        print "Generating skeletal setup.py file."
-        #f = open(self.setup_file, 'w').write("try:\n
+    if snap is False:
+        if ask_yes_no("Would you like help creating a setup.py file?"):
+            print "I will help!"
+            dict(
+                encoding="",
+                version="",
+                shortname="",
+                description="",
+                classifiers=[],
+                keywords=[],
+                author="",
+                email="",
+                url="",
+                license="",
+                requires=[]
+            )
+        else:
+            project.update(dict(
+                encoding="",
+                version="",
+                shortname="",
+                description="",
+                classifiers=[],
+                keywords=[],
+                author="",
+                email="",
+                url="",
+                license="",
+                requires=[]
+            ))
+            print "Generating skeletal setup.py file."
+            #f = open(self.setup_file, 'w').write("try:\n
