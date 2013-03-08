@@ -38,6 +38,10 @@ def prompt_new_project(name=None, snap=False):
     if not name:
         name = prompt_input("Project name: ")
 
+    if os.path.isdir(name):
+        print "A project with that name already exists here."
+        exit(1)
+
     project['name'] = name
     project['project_dir'] = join(_here, name)
     project['directories'] = [project['project_dir']]
