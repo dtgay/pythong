@@ -60,59 +60,41 @@ def prompt_new_project(name=None, snap=False):
         project['init_file'] = open(f, 'w').close()
 
     # Create setup.py file
-    if snap is False:
-        if ask_yes_no("Would you like help creating a setup.py file?"):
-            project.update(dict(
-                encoding=prompt_input("Encoding: ",
-                                      default='utf-8'),
-                version=prompt_input("Version: ",
-                                     default='0.1.0'),
-                shortname=prompt_input("Short name: ",
-                                       default=project.get("name")),
-                description=prompt_input("Description: ",
-                                         default='A new project'),
-                classifiers=prompt_input("Classifiers (comma delimited): "
-                                         ).split(','),
-                keywords=prompt_input("Keywords (comma delimited): "
-                                      ).split(','),
-                author=prompt_input("Author: "),
-                email=prompt_input("Author email: "),
-                url=prompt_input("Project URL: "),
-                license=prompt_input("License: "),
-                requires=prompt_input("Requirements (comma delimited): "
-                                      ).split(',')))
-        else:
-            print "Generating skeletal setup.py file."
-            project.update(dict(
-                encoding="utf-8",
-                version="0.1.0",
-                shortname=project.get("name"),
-                description="A new project",
-                classifiers=[],
-                keywords=[],
-                author="",
-                email="",
-                url="",
-                license="",
-                requires=[]))
-    # TODO: restructure this area to fix the redundancy
-    # of having two "generate skeletal setup.py file" code blocks...
-    # I want to learn the best way to handle a situation like this
-    # in Python.
+    # first, set sane defaults
+    project.update(dict(
+        encoding="utf8",
+        version="0.1.0",
+        shortname=project.get("name", "horsewithnoname"),
+        description="A new project",
+        classifiers=[],
+        keywords=[],
+        author="",
+        email="",
+        url="",
+        license="",
+        requires=[]))
+
+    if not snap and ask_yes_no("Would you like help creating a setup.py file?"):
+        project.update(dict(
+            encoding=prompt_input("Encoding [utf8]: ", default='utf8'),
+            version=prompt_input("Version [0.1.0]: ", default='0.1.0'),
+            shortname=prompt_input("Short name [%s]: " % project.get("name"),
+                                   default=project.get("name")),
+            description=prompt_input("Description [A new project]: ",
+                                     default='A new project'),
+            classifiers=prompt_input("Classifiers (comma delimited): "
+                                     ).split(','),
+            keywords=prompt_input("Keywords (comma delimited): ").split(','),
+            author=prompt_input("Author: "),
+            email=prompt_input("Author email: "),
+            url=prompt_input("Project URL: "),
+            license=prompt_input("License: "),
+            requires=prompt_input("Requirements (comma delimited): "
+                                  ).split(',')))
     else:
         print "Generating skeletal setup.py file."
-        project.update(dict(
-            encoding="utf-8",
-            version="0.1.0",
-            shortname=project.get("name"),
-            description="A new project",
-            classifiers=[],
-            keywords=[],
-            author="",
-            email="",
-            url="",
-            license="",
-            requires=[]))
-        f = open(project['setup_file'], 'w')
+
+    with open(project['setup_file'], 'w') as f:
         f.write(setup_template.render(project=project))
-        f.close()
+        exit(0)
+    exit(1)
