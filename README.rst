@@ -40,3 +40,4 @@ Contributors
 Feel free to add your name.
 
 -   David Gay <oddshocks@gmail.com>
+-   Ryan Scott Brown <ryansb@csh.rit.edu>
