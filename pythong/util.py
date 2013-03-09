@@ -4,6 +4,7 @@
 Contains utility functions used by pythong, including
 command parsing.
 """
+from os.path import join
 
 
 def ask_yes_no(message, default=None):
@@ -44,5 +45,31 @@ def prompt_input(prompt, default=None, expected=str):
         if expected is str:
             return str(raw)
 
-        if default is None:
-            return None
+
+def determine_directories(name, basedir, snap=False):
+    project = dict()
+
+    project['name'] = name
+    project['project_dir'] = join(basedir, name)
+    project['directories'] = [project['project_dir']]
+
+    if not snap:
+        if ask_yes_no("Would you like a bin directory?", default=True):
+            project['bin_dir'] = join(project['project_dir'], "bin")
+            project['directories'].append(project['bin_dir'])
+
+        if ask_yes_no("Would you like a tests directory?", default=True):
+            project['tests_dir'] = join(project['project_dir'], "tests")
+            project['directories'].append(project['tests_dir'])
+    else:
+        project['bin_dir'] = join(project['project_dir'], "bin")
+        project['tests_dir'] = join(project['project_dir'], "tests")
+        project['directories'].extend([project['bin_dir'],
+                                       project['tests_dir']])
+
+    project['docs_dir'] = join(project['project_dir'], "docs")
+    project['source_dir'] = join(project['project_dir'], name)
+
+    project['directories'].extend([project['docs_dir'], project['source_dir']])
+
+    return project

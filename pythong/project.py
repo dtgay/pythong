@@ -3,7 +3,7 @@
 import jinja2
 import os
 from os.path import join
-from pythong.util import ask_yes_no, prompt_input
+from pythong.util import ask_yes_no, prompt_input, determine_directories
 # from jinja2 import Environment, PackageLoader
 
 _here = os.getcwd()
@@ -42,28 +42,7 @@ def prompt_new_project(name=None, snap=False):
         print "A project with that name already exists here."
         exit(1)
 
-    project['name'] = name
-    project['project_dir'] = join(_here, name)
-    project['directories'] = [project['project_dir']]
-
-    if snap is False:
-        if ask_yes_no("Would you like a bin directory?", default=True):
-            project['bin_dir'] = join(project['project_dir'], "bin")
-            project['directories'].append(project['bin_dir'])
-
-        if ask_yes_no("Would you like a tests directory?", default=True):
-            project['tests_dir'] = join(project['project_dir'], "tests")
-            project['directories'].append(project['tests_dir'])
-    else:
-        project['bin_dir'] = join(project['project_dir'], "bin")
-        project['directories'].append(project['bin_dir'])
-        project['tests_dir'] = join(project['project_dir'], "tests")
-        project['directories'].append(project['tests_dir'])
-
-    project['docs_dir'] = join(project['project_dir'], "docs")
-    project['source_dir'] = join(project['project_dir'], name)
-
-    project['directories'].extend([project['docs_dir'], project['source_dir']])
+    project.update(determine_directories(name, _here, snap))
 
     # Files
     project['setup_file'] = join(project['project_dir'], "setup.py")
