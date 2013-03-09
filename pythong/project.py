@@ -1,20 +1,15 @@
 #!/bin/env python
 # -*- coding: utf8 -*-
-import jinja2
 import os
+import jinja2
 from os.path import join
 from pythong.util import ask_yes_no, prompt_input, determine_directories
-# from jinja2 import Environment, PackageLoader
 
 _here = os.getcwd()
 
 jinja_env = jinja2.Environment(
-        loader=jinja2.PackageLoader('pythong', 'templates'))
+    loader=jinja2.PackageLoader('pythong', 'templates'))
 setup_template = jinja_env.get_template('setup.py.jinja')
-
-# env = Environment(loader=PackageLoader('pythong', 'templates'))
-# t = env.get_template('setup.py.jinja')
-# print t.render(verbose=True, project=p)
 
 
 def prompt_new_project(name=None, snap=False):
@@ -58,7 +53,7 @@ def prompt_new_project(name=None, snap=False):
 
     # Create project skeleton
     print "Creating structure for new Python project {}.".format(
-            project.get("name"))
+        project.get("name"))
     for dirname in project.get("directories", []):
         os.mkdir(dirname)
     for f in project.get("files", []):
@@ -76,16 +71,16 @@ def prompt_new_project(name=None, snap=False):
                                        default=project.get("name")),
                 description=prompt_input("Description: ",
                                          default='A new project'),
-                classifiers=prompt_input("Classifiers " \
-                                         "(comma delimited): ").split(','),
-                keywords=prompt_input("Keywords " \
-                                      "(comma delimited): ").split(','),
+                classifiers=prompt_input("Classifiers (comma delimited): "
+                                         ).split(','),
+                keywords=prompt_input("Keywords (comma delimited): "
+                                      ).split(','),
                 author=prompt_input("Author: "),
                 email=prompt_input("Author email: "),
                 url=prompt_input("Project URL: "),
                 license=prompt_input("License: "),
-                requires=prompt_input("Requirements " \
-                                      "(comma delimited): ").split(',')))
+                requires=prompt_input("Requirements (comma delimited): "
+                                      ).split(',')))
         else:
             print "Generating skeletal setup.py file."
             project.update(dict(
