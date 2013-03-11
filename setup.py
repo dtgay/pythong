@@ -2,6 +2,11 @@
 # -*- coding: utf8 -*-
 from setuptools import setup, find_packages
 
+try:
+    import multiprocessing, logging
+except ImportError:
+    pass
+
 version = '0.0.1'
 
 setup(name='pythong',
