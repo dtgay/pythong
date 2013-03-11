@@ -6,8 +6,6 @@ import readline
 from os.path import join
 from pythong.util import ask_yes_no, prompt_input, determine_directories
 
-_here = os.getcwd()
-
 jinja_env = jinja2.Environment(
     loader=jinja2.PackageLoader('pythong', 'templates'))
 setup_template = jinja_env.get_template('setup.py.jinja')
@@ -39,7 +37,7 @@ def prompt_new_project(name=None, snap=False):
         print "A project with that name already exists here."
         exit(1)
 
-    project.update(determine_directories(name, _here, snap))
+    project.update(determine_directories(name, os.getcwd(), snap))
 
     # Files
     project['setup_file'] = join(project['project_dir'], "setup.py")
