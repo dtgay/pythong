@@ -11,6 +11,7 @@ _here = os.getcwd()
 jinja_env = jinja2.Environment(
     loader=jinja2.PackageLoader('pythong', 'templates'))
 setup_template = jinja_env.get_template('setup.py.jinja')
+distribute_template = jinja_env.get_template('distribute_setup.py.jinja')
 
 
 def prompt_new_project(name=None, snap=False):
@@ -95,9 +96,8 @@ def prompt_new_project(name=None, snap=False):
     else:
         print "Generating skeletal setup.py file."
 
-    with open(join(project['project_dir'], "distribute_setup.py"), 'w') as dest:
-        with open("templates/distribute_setup.py") as src:
-            dest.write(src.read())
+    with open(join(project['project_dir'], "distribute_setup.py"), 'w') as f:
+        f.write(distribute_template.render(project=project))
 
     with open(project['setup_file'], 'w') as f:
         f.write(setup_template.render(project=project))
