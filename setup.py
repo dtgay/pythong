@@ -24,7 +24,7 @@ setup(name='pythong',
       packages=find_packages(exclude=['ez_setup', 'tests']),
       include_package_data=True,
       zip_safe=False,
-      install_requires=['nose', 'jinja2'],
+      install_requires=['nose', 'mock', 'six', 'jinja2'],
       entry_points="""
       [console_scripts]
       pythong = pythong:create_project
