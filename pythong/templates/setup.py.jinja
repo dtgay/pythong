@@ -4,6 +4,12 @@
 # -*- coding: {{ project.encoding }} -*-{% if verbose %}
 # Obey PEP263 http://www.python.org/dev/peps/pep-0263/ and put in an encoding
 # line for popular editors.{% endif %}
+
+from distribute_setup import use_setuptools
+use_setuptools(){% if verbose %}
+# Using distribute alongside setuptools as is outlined in
+# https://pythonhosted.org/distribute/using.html{% endif %}
+
 from setuptools import setup, find_packages
 
 version = "{{ project.version }}"
