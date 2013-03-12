@@ -18,15 +18,24 @@ Or, for a quicker setup... ::
 
 Including the project name in the command is optional.
 
+Since version 0.0.2, you can wash your pythong of messy build files::
+
+    $ pythong --wash
+
 A full list of options can be seen with::
 
     $ pythong --help
 
-Download
---------
+Get Pythong
+-----------
 
-pythong will be available on PyPI soon, but until then, you can
-download the source code from http://github.com/oddshocks/pythong.
+You can install the latest release of Pythong from `PyPI
+<https://pypi.python.org/pypi/pythong>`_ with pip::
+
+    $ pip install pythong
+
+You can also get the source from PyPI or `GitHub
+<https://github.com/oddshocks/pythong>`_.
 Contributions are welcome! Yay, software freedom!
 
 License
