@@ -14,9 +14,9 @@ setup(name='pythong',
       description="Set up a minimal, yet comfortable structure \
                     for a Python project",
       classifiers=[
-          "Development Status :: Planning",
+          "Development Status :: 2 - Pre-Alpha",
           "Intended Audience :: Developers",
-          "License :: MIT",
+          "License :: GPLv3+",
           "Programming Language :: Python :: 2",
           "Topic :: Software Development",
           "Topic :: Utilities",
