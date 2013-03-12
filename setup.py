@@ -16,7 +16,7 @@ setup(name='pythong',
       classifiers=[
           "Development Status :: 2 - Pre-Alpha",
           "Intended Audience :: Developers",
-          "License :: GPLv3+",
+          "License :: OSI Approved :: GNU General Public License (GPL)",
           "Programming Language :: Python :: 2",
           "Topic :: Software Development",
           "Topic :: Utilities",
