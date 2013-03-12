@@ -2,10 +2,11 @@
 # -*- coding: utf8 -*-
 
 import argparse
+from pythong.command import wash
 from pythong.project import prompt_new_project
 
 
-def create_project():
+def parse_command():
     p = argparse.ArgumentParser()
     p.add_argument('name', nargs='?', default='',
                    help='name of project to be created')
@@ -18,4 +19,7 @@ def create_project():
     p.add_argument('-w, --wash', action='store_true',
                    help='clean your pythong of messy build/dist/egg files')
     args = p.parse_args()
-    prompt_new_project(args.name, args.snap)
+    if args.wash:
+        pythong.wash()
+    else:
+        prompt_new_project(args.name, args.snap)

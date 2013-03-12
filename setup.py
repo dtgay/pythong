@@ -34,5 +34,5 @@ setup(name='pythong',
       install_requires=['six', 'jinja2'],
       entry_points="""
       [console_scripts]
-      pythong = pythong:create_project
+      pythong = pythong:parse_command
       """)
