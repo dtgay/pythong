@@ -17,9 +17,9 @@ def parse_command():
                    help='quickly create a project skeleton without \
                           any prompting')
     p.add_argument('-w', '--wash', action='store_true',
-                   help='clean your pythong of messy build/dist/egg files')
+                   help='clean your pythong of messy build/dist/egg/pyc files')
     args = p.parse_args()
     if args.wash:
-        pythong.wash()
+        wash()
     else:
         prompt_new_project(args.name, args.snap)
