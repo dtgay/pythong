@@ -2,7 +2,7 @@
 # -*- coding: utf8 -*-
 
 import argparse
-from pythong.command import wash
+from pythong.command import pin, wash
 from pythong.project import prompt_new_project
 
 
@@ -13,6 +13,8 @@ def parse_command():
     # TODO: have version be pulled from setup.py variable?
     p.add_argument('--version', action='version',
                    version='you are using version 0.0.1 of the pythong')
+    p.add_argument('-p', '--pin', action='append',
+                   help='add a file or directory to your pythong\'s manifest')
     p.add_argument('-s', '--snap', action='store_true',
                    help='quickly create a project skeleton without \
                           any prompting')
@@ -21,5 +23,7 @@ def parse_command():
     args = p.parse_args()
     if args.wash:
         wash()
+    elif args.pin:
+        pin(args.pin)
     else:
         prompt_new_project(args.name, args.snap)
