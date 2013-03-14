@@ -16,10 +16,9 @@ def parse_command():
     p.add_argument('-l', '--label', action='store_true',
                    help='add PyPI classifiers to your pythong')
     p.add_argument('-p', '--pin', nargs='+', type=str, action='append',
-                   help='add a file or directory to your pythong\'s manifest')
+                   help='add files/directories to your pythong\'s manifest')
     p.add_argument('-s', '--snap', action='store_true',
-                   help='quickly create a project skeleton without \
-                          any prompting')
+                   help='create a project skeleton without any prompting')
     p.add_argument('-w', '--wash', action='store_true',
                    help='clean your pythong of messy build/dist/egg/pyc files')
     args = p.parse_args()
