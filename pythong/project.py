@@ -5,6 +5,7 @@ import jinja2
 import readline
 from os.path import join
 from pythong.util import ask_yes_no, prompt_input, determine_directories
+from pythong.classifiers import CLASSIFIERS
 
 jinja_env = jinja2.Environment(
     loader=jinja2.PackageLoader('pythong', 'templates'))
@@ -101,3 +102,52 @@ def prompt_new_project(name=None, snap=False):
         f.write(setup_template.render(project=project))
         exit(0)
     exit(1)
+
+
+def prompt_classifiers(applicable=None):
+    """
+    Prompt the user to pick classifiers that apply to their project.
+    Optionally takes a list of preselected classifiers (maybe for license later)
+    """
+    if applicable is None:
+        applicable = []
+    if not ask_yes_no("Would you like to select classifiers for your project?",
+                      default=False):
+        return applicable
+    while True:
+        prompt_optionlist(sorted(CLASSIFIERS.keys()))
+        if not ask_yes_no("Would you like to add another classifier?",
+                          default=True):
+            return applicable
+
+
+def recurse_prompt(tree):
+    if None in tree.values():
+        return tree[prompt_optionlist(sorted(tree.keys()))[1]]
+    return recurse_prompt(tree[prompt_optionlist(sorted(tree.keys()))[1]])
+
+
+def prompt_optionlist(options):
+    """
+    Returns tuple with index of selected option and full option string
+
+    Returns None if user chooses none of the above
+
+    example:
+        given: ['MIT', 'GPL', 'LGPL', 'Apache']
+        returns: (1, 'GPL')
+
+    """
+    for num, opt in zip(range(1, len(options) + 1)):
+        print "[{num}] {opt}".format(num=num, opt=opt)
+    print "[0] None"
+    selection = raw_input("Select an option from the list above: ")
+    while True:
+        try:
+            if int(selection) not in range(len(options) + 1):
+                raise ValueError
+            selection = int(selection)
+            break
+        except ValueError:
+            selection = raw_input("Enter a number from the list above: ")
+    return (selection, options[selection - 1])
