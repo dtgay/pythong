@@ -5,6 +5,25 @@ pythong
 
 Set up a minimal, yet comfortable structure for a Python project.
 
+Features
+--------
+
+-   Create a standard Python project directory structure
+
+-   Get help creating your setup.py file, or
+    choose to write it yourself by passing the ``--snap``
+    command
+
+-   Clear your project of messy build files (build/dist/egg/pyc)
+    with the ``--wash`` command
+
+-   Generate a distribute_setup.py file to use a setup.py file
+    with distribute
+
+-   Use a tree-style menu to set your PyPI classifiers in your
+    setup.py file
+
+
 Example Usage
 -------------
 
@@ -18,9 +37,14 @@ Or, for a quicker setup... ::
 
 Including the project name in the command is optional.
 
-Since version 0.0.2, you can wash your pythong of messy build files::
+Since version 0.0.2, you can **wash** your pythong of messy build files::
 
     $ pythong --wash
+
+Since version 0.0.3, Pythong will help you add classifiers to your setup.py
+during project creation, or after the fact with the **label** command::
+
+    $ pythong --label
 
 A full list of options can be seen with::
 
@@ -48,6 +72,6 @@ Contributors
 
 Feel free to add your name.
 
--   David Gay <oddshocks@gmail.com>
--   Ryan Scott Brown <ryansb@csh.rit.edu>
+-   David Gay  <oddshocks@gmail.com>
+-   Ryan Scott Brown  <ryansb@csh.rit.edu>
 -   Ralph Bean  <rbean@redhat.com>
