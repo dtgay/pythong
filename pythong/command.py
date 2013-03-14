@@ -5,6 +5,19 @@ import re
 import shutil
 
 
+def label(classifiers):
+    """Takes a list of classifiers gathered by the
+       project.prompt_classifiers() function and adds them to
+       the setup.py file in the cwd."""
+    if os.path.isfile('setup.py'):
+        try:
+            open('setup.py')
+        except:
+            print "Can't open setup.py file in current directory."
+    else:
+        print "No setup.py file in current directory."
+
+
 def pin(pin_list):
     """Add a list of files and directories to a MANIFEST.in
        file in the cwd."""

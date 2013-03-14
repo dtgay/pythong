@@ -2,7 +2,7 @@
 # -*- coding: utf8 -*-
 
 import argparse
-from pythong.command import pin, wash
+from pythong.command import label, pin, wash
 from pythong.project import prompt_classifiers, prompt_new_project
 
 
@@ -24,7 +24,7 @@ def parse_command():
                    help='clean your pythong of messy build/dist/egg/pyc files')
     args = p.parse_args()
     if args.label:
-        prompt_classifiers()
+        label(prompt_classifiers())
     elif args.pin:
         pin(args.pin)
     elif args.wash:
