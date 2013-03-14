@@ -4,18 +4,35 @@ import os
 import re
 import shutil
 
+from pythong.project import write_setup_files
+from pythong.util import ask_yes_no, read_config, write_config
+
 
 def label(classifiers):
     """Takes a list of classifiers gathered by the
        project.prompt_classifiers() function and adds them to
-       the setup.py file in the cwd."""
-    if os.path.isfile('setup.py'):
+       the setup.py file."""
+    if os.path.isfile('.pythong'):
         try:
-            open('setup.py')
-        except:
-            print "Can't open setup.py file in current directory."
+            config_data = read_config('.pythong')
+            # TODO: fix dict so I can do config_data.project.classifiers,
+            # so that I can add cool stuff to the config later that is
+            # not about the project? dunno if necessary
+            config_data['classifiers'] = classifiers
+            write_config('.pythong', config_data)
+            print "Modified .pythong config file with new classifiers."
+            if ask_yes_no("Do you want to rebuild your setup.py from your new"
+                          " config file? All manual changes will be erased.",
+                           default=False):
+                try:
+                    write_setup_files(config_data['project_dir'])
+                    print "Setup files written."
+                except:
+                    print "Problem writing setup files."
+        except OSError:
+            print "Can't open .pythong file in current directory."
     else:
-        print "No setup.py file in current directory."
+        print "No .pythong file in current directory."
 
 
 def pin(pin_list):

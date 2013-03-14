@@ -4,6 +4,7 @@
 Contains utility functions used by pythong, including
 command parsing.
 """
+import json
 import os
 from os.path import join
 
@@ -74,6 +75,16 @@ def determine_directories(name, basedir, snap=False):
     project['directories'].extend([project['docs_dir'], project['source_dir']])
 
     return project
+
+
+def write_config(config_file, data):
+    with open(config_file, 'wb') as f:
+        json.dump(data, f)
+
+
+def read_config(config_file):
+    with open(config_file, 'rb') as f:
+        return json.load(f)
 
 
 class Directory(object):

@@ -2,9 +2,11 @@
 # -*- coding: utf8 -*-
 import os
 import jinja2
+import json
 import readline
 from os.path import join
-from pythong.util import ask_yes_no, prompt_input, determine_directories
+from pythong.util import (ask_yes_no, prompt_input, determine_directories,
+                         write_config, read_config)
 from pythong.classifiers import CLASSIFIERS
 
 jinja_env = jinja2.Environment(
@@ -92,15 +94,28 @@ def prompt_new_project(name=None, snap=False):
             requires=prompt_input("Requirements (comma delimited): "
                                   ).split(',')))
     else:
-        print "Generating skeletal setup.py file."
+        print "Generating skeletal setup files."
 
-    with open(join(project['project_dir'], "distribute_setup.py"), 'w') as f:
-        f.write(distribute_template.render(project=project))
+    try:
+        write_config(os.path.join(project['project_dir'], '.pythong'), project)
+        print "Configuration file written."
+    except:
+        print "Problem writing config file."
 
-    with open(project['setup_file'], 'w') as f:
-        f.write(setup_template.render(project=project))
-        exit(0)
-    exit(1)
+    try:
+        write_setup_files(project['project_dir'])
+        print "Setup files written."
+    except:
+        print "Problem writing setup files."
+
+
+def write_setup_files(project_dir):
+    config_data = read_config(os.path.join(project_dir, '.pythong'))
+    with open(join(config_data['project_dir'],
+                   'distribute_setup.py'), 'w') as f:
+        f.write(distribute_template.render(project=config_data))
+    with open(config_data['setup_file'], 'w') as f:
+        f.write(setup_template.render(project=config_data))
 
 
 def prompt_classifiers(applicable=None):
