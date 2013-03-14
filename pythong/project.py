@@ -84,7 +84,6 @@ def prompt_new_project(name=None, snap=False):
             description=prompt_input("Description [A new project]: ",
                                      default='A new project'),
             classifiers=prompt_classifiers(),
-            #classifiers=prompt_input("Classifiers (comma delimited): " #).split(','),
             keywords=prompt_input("Keywords (comma delimited): ").split(','),
             author=prompt_input("Author: "),
             email=prompt_input("Author email: "),
