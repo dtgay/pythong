@@ -120,7 +120,7 @@ def prompt_classifiers(applicable=None):
         applicable.append(selection)
         if len(applicable) > 0:
             print "Selected: \n\t", "\n\t".join(applicable)
-        if not ask_yes_no("Would you like to add another classifier?",
+        if not ask_yes_no("\nWould you like to add another classifier?",
                           default=True):
             return applicable
 
@@ -156,7 +156,7 @@ def prompt_optionlist(options):
     for num, opt in zip(range(1, len(options) + 1), options):
         print "[{num}] {opt}".format(num=num, opt=opt)
     print "[0] None"
-    selection = raw_input("Select an option from the list above: ")
+    selection = raw_input("\nSelect an option from the list above: ")
     while True:
         try:
             if int(selection) not in range(len(options) + 1):
