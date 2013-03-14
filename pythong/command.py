@@ -7,11 +7,11 @@ import shutil
 
 def pin(pin_list):
     """Add a list of files and directories to a MANIFEST.in
-        file in the cwd."""
+       file in the cwd."""
+    # pin_list is a list inside of a list for some reason
     manifest = open('MANIFEST.in', 'a')
-    for pin_item in pin_list:
-        if True:
-        #if pin_item is a file:
+    for pin_item in pin_list[0]:
+        if os.path.isfile(pin_item):
             manifest.write('include {}\n'.format(pin_item))
         else:
             manifest.write('recursive-include {} *\n'.format(pin_item))
