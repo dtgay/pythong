@@ -31,7 +31,7 @@ setup(name='pythong',
       tests_require=['nose', 'mock'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=['six', 'jinja2'],
+      install_requires=['jinja2'],
       entry_points="""
       [console_scripts]
       pythong = pythong:parse_command
