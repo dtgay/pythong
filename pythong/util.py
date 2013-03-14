@@ -4,8 +4,8 @@
 Contains utility functions used by pythong, including
 command parsing.
 """
-import json
 import os
+import yaml
 from os.path import join
 
 
@@ -79,12 +79,12 @@ def determine_directories(name, basedir, snap=False):
 
 def write_config(config_file, data):
     with open(config_file, 'wb') as f:
-        json.dump(data, f)
+        yaml.dump(data, f)
 
 
 def read_config(config_file):
     with open(config_file, 'rb') as f:
-        return json.load(f)
+        return yaml.safe_load(f)
 
 
 class Directory(object):
