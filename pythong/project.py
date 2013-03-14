@@ -83,8 +83,8 @@ def prompt_new_project(name=None, snap=False):
                                    default=project.get("name")),
             description=prompt_input("Description [A new project]: ",
                                      default='A new project'),
-            classifiers=prompt_input("Classifiers (comma delimited): "
-                                     ).split(','),
+            classifiers=prompt_classifiers(),
+            #classifiers=prompt_input("Classifiers (comma delimited): " #).split(','),
             keywords=prompt_input("Keywords (comma delimited): ").split(','),
             author=prompt_input("Author: "),
             email=prompt_input("Author email: "),
@@ -115,30 +115,46 @@ def prompt_classifiers(applicable=None):
                       default=False):
         return applicable
     while True:
-        prompt_optionlist(sorted(CLASSIFIERS.keys()))
+        selection = recurse_prompt(CLASSIFIERS)
+        if selection is None:
+            return applicable
+        applicable.append(selection)
+        if len(applicable) > 0:
+            print "Selected: \n\t", "\n\t".join(applicable)
         if not ask_yes_no("Would you like to add another classifier?",
                           default=True):
             return applicable
 
 
-def recurse_prompt(tree):
-    if None in tree.values():
-        return tree[prompt_optionlist(sorted(tree.keys()))[1]]
-    return recurse_prompt(tree[prompt_optionlist(sorted(tree.keys()))[1]])
+def recurse_prompt(tree, sofar=""):
+    if tree is None:
+        #get rid of the trailing " :: "
+        return sofar[:-4]
+
+    if not any(tree.values()):
+        return sofar + prompt_optionlist(sorted(tree.keys()))
+
+    selection = prompt_optionlist(sorted(tree.keys()))
+
+    if selection is None:
+        return None
+    sofar += selection + " :: "
+    selection = recurse_prompt(tree[selection], sofar)
+    return selection
 
 
 def prompt_optionlist(options):
     """
-    Returns tuple with index of selected option and full option string
+    Returns selected option string
 
     Returns None if user chooses none of the above
 
     example:
         given: ['MIT', 'GPL', 'LGPL', 'Apache']
-        returns: (1, 'GPL')
+        returns: 'GPL'
 
     """
-    for num, opt in zip(range(1, len(options) + 1)):
+    for num, opt in zip(range(1, len(options) + 1), options):
         print "[{num}] {opt}".format(num=num, opt=opt)
     print "[0] None"
     selection = raw_input("Select an option from the list above: ")
@@ -150,4 +166,6 @@ def prompt_optionlist(options):
             break
         except ValueError:
             selection = raw_input("Enter a number from the list above: ")
-    return (selection, options[selection - 1])
+    if selection == 0:
+        return None
+    return options[selection - 1]
