@@ -45,7 +45,7 @@ def prompt_input(prompt, default=None, expected=str):
     while True:
         raw = raw_input(prompt)
         if expected is str:
-            return str(raw)
+            return str(raw) or default
 
 
 def determine_directories(name, basedir, snap=False):
