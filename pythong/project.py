@@ -76,7 +76,8 @@ def prompt_new_project(name=None, snap=False):
         license="",
         requires=[]))
 
-    if not snap and ask_yes_no("Would you like help creating a setup.py file?"):
+    if not snap and \
+        ask_yes_no("Would you like help creating a setup.py file?"):
         project.update(dict(
             encoding=prompt_input("Encoding [utf8]: ", default='utf8'),
             version=prompt_input("Version [0.1.0]: ", default='0.1.0'),
@@ -85,13 +86,14 @@ def prompt_new_project(name=None, snap=False):
             description=prompt_input("Description [A new project]: ",
                                      default='A new project'),
             classifiers=prompt_classifiers(),
-            keywords=prompt_input("Keywords (comma delimited): ").split(','),
+            keywords=prompt_input("Keywords (comma delimited): ",
+                                  default=str).split(','),
             author=prompt_input("Author: "),
             email=prompt_input("Author email: "),
             url=prompt_input("Project URL: "),
             license=prompt_input("License: "),
-            requires=prompt_input("Requirements (comma delimited): "
-                                  ).split(',')))
+            requires=prompt_input("Requirements (comma delimited): ",
+                                  default=str).split(',')))
     else:
         print "Generating skeletal setup files."
 
@@ -120,7 +122,8 @@ def write_setup_files(project_dir):
 def prompt_classifiers(applicable=None):
     """
     Prompt the user to pick classifiers that apply to their project.
-    Optionally takes a list of preselected classifiers (maybe for license later)
+    Optionally takes a list of preselected classifiers
+    (maybe for license later)
     """
     if applicable is None:
         applicable = []
