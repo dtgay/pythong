@@ -27,8 +27,7 @@ def ask_yes_no(message, default=None):
         valid[''] = False
 
     while True:
-        print message + prompt,
-        choice = raw_input().lower()
+        choice = raw_input(message + prompt).lower()
         if choice in valid:
             return valid[choice]
         print "Please respond with 'yes', 'no', 'y', or 'n'."
