@@ -21,7 +21,7 @@ setup(
     classifiers=[{% if project.classifiers %}
         "{{ "\",\n        \"".join(project.classifiers) }}"
     {% endif %}],
-    keywords="{{ " ".join(project.keywords) }}",
+    keywords="{% if project.keywords != "" %}{{ " ".join(project.keywords) }}{% endif %}",
     author="{{ project.author }}",
     author_email="{{ project.email }}",
     url="{{ project.url }}",
@@ -42,9 +42,9 @@ setup(
     ),
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
+    install_requires=[{% if project.requires != "" %}
         "{{ "\", \n        \"".join(project.requires) }}"
-    ],
+    {% endif %}],
     #TODO: Deal with entry_points
     #entry_points="""
     #[console_scripts]
