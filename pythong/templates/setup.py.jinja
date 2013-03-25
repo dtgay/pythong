@@ -18,9 +18,9 @@ setup(
     name="{{ project.shortname }}",
     version=version,
     description="{{ project.description|wordwrap(79, true) }}",
-    classifiers=[
+    classifiers=[{% if project.classifiers %}
         "{{ "\",\n        \"".join(project.classifiers) }}"
-    ],
+    {% endif %}],
     keywords="{{ " ".join(project.keywords) }}",
     author="{{ project.author }}",
     author_email="{{ project.email }}",
