@@ -86,14 +86,16 @@ def prompt_new_project(name=None, snap=False):
             description=prompt_input("Description [A new project]: ",
                                      default='A new project'),
             classifiers=prompt_classifiers(),
-            keywords=prompt_input("Keywords (comma delimited): ",
-                                  default="").split(','),
+            keywords=[x.strip() for x in
+                      prompt_input("Keywords (comma delimited): ",
+                                   default="").split(',')],
             author=prompt_input("Author: "),
             email=prompt_input("Author email: "),
             url=prompt_input("Project URL: "),
             license=prompt_input("License: "),
-            requires=prompt_input("Requirements (comma delimited): ",
-                                  default="").split(',')))
+            requires=[x.strip() for x in
+                      prompt_input("Requirements (comma delimited): ",
+                                   default="").split(',')]))
     else:
         print "Generating skeletal setup files."
 
