@@ -5,7 +5,7 @@ import jinja2
 import readline
 from os.path import join
 from pythong.util import (ask_yes_no, prompt_input, determine_directories,
-                         write_config, read_config)
+                          write_config, read_config)
 from pythong.classifiers import CLASSIFIERS
 
 jinja_env = jinja2.Environment(
@@ -76,8 +76,8 @@ def prompt_new_project(name=None, snap=False):
         license="",
         requires=[]))
 
-    if not snap and \
-        ask_yes_no("Would you like help creating a setup.py file?"):
+    if not snap and ask_yes_no("Would you like help creating a setup.py "
+                               "file?"):
         project.update(dict(
             encoding=prompt_input("Encoding [utf8]: ", default='utf8'),
             version=prompt_input("Version [0.1.0]: ", default='0.1.0'),
