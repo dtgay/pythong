@@ -135,6 +135,8 @@ def prompt_classifiers(applicable=None):
     while True:
         selection = recurse_prompt(CLASSIFIERS)
         if selection is None:
+            continue
+        if selection is False:
             return applicable
         applicable.append(selection)
         if len(applicable) > 0:
@@ -149,16 +151,16 @@ def recurse_prompt(tree, sofar=""):
         #get rid of the trailing " :: "
         return sofar[:-4]
 
-    if not any(tree.values()):
-        return sofar + prompt_optionlist(sorted(tree.keys()))
-
     selection = prompt_optionlist(sorted(tree.keys()))
 
     if selection is None:
+        if sofar == "":
+            return False
         return None
     sofar += selection + " :: "
-    selection = recurse_prompt(tree[selection], sofar)
-    return selection
+    if not any(tree.values()):
+        return sofar
+    return recurse_prompt(tree[selection], sofar)
 
 
 def prompt_optionlist(options):
