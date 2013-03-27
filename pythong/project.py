@@ -159,7 +159,8 @@ def recurse_prompt(tree, sofar=""):
         return None
     sofar += selection + " :: "
     if not any(tree.values()):
-        return sofar
+        # get rid of trailing " :: "
+        return sofar[:-4]
     return recurse_prompt(tree[selection], sofar)
 
 
