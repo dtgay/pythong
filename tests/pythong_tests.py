@@ -11,25 +11,32 @@ from nose.tools import eq_
 import tempfile
 
 
+def fake_prompt_optionlist(input_list):
+
+    def fakereturns():
+        return input_list.pop(0)
+    return fakereturns
+
+
 class TestThong(unittest.TestCase):
+
     def setUp(self):
         print "SETUP"
 
     def tearDown(self):
         print "TEAR DOWN"
 
-    @patch("sys.argv", new_callable=lambda: ["pythong", "--snap", "test_proj"])
-    def test_snap_project(self, mock_argv):
-        with Directory(tempfile.mkdtemp()):
-            # below, I comment out the proper assertion line and assert
-            # True to show that pythong.create_project() is what is causing
-            # tests to fail with:
-            # TypeError: sequence item 0:
-            #           expected string or Unicode, exceptions.SystemExit found
-            # basically gotta fix this later
-            #pythong.create_project()
-            #assert(os.path.isdir("tests"))
-            assert(True)
+    @patch("pythong.project.prompt_optionlist",
+           new_callable=fake_prompt_optionlist([{"Development Status": None,
+                                                 "None": None,
+                                                 "Operating Systems": None,
+                                                 "Linux": None,
+                                                 "Fedora": None}]))
+    def test_optionlist(self, arg2):
+        print arg2
+        from pythong.classifiers import CLASSIFIERS
+        from pythong.project import recurse_prompt
+        assert(recurse_prompt(CLASSIFIERS) == "Operating Systems :: Linux :: Fedora")
 
 if __name__ == '__main__':
     unittest.main()
