@@ -7,7 +7,7 @@ try:
 except ImportError:
     pass
 
-version = '0.0.6'
+version = '0.6.0'
 
 setup(name='pythong',
       version=version,
@@ -23,7 +23,7 @@ setup(name='pythong',
       ],
       keywords='python development project bootstrap',
       author='David Gay',
-      author_email='oddshocks@gmail.com',
+      author_email='oddshocks@riseup.net',
       url='http://github.com/oddshocks/pythong',
       license='GPLv3+',
       packages=find_packages(exclude=['ez_setup', 'tests']),
