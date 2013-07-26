@@ -153,10 +153,13 @@ def recurse_prompt(tree, sofar=""):
 
     selection = prompt_optionlist(sorted(tree.keys()))
 
-    if selection is None:
-        if sofar == "":
+    if not selection:
+        if selection is None and sofar == "":
             return False
-        return None
+        elif selection == '':
+            return sofar[:-4]
+        else:
+            return None
     sofar += selection + " :: "
     if not any(tree.values()):
         # get rid of trailing " :: "
@@ -178,15 +181,19 @@ def prompt_optionlist(options):
     for num, opt in zip(range(1, len(options) + 1), options):
         print "[{num}] {opt}".format(num=num, opt=opt)
     print "[0] None"
+    print "[99] Cancel"
     selection = raw_input("\nSelect an option from the list above: ")
     while True:
         try:
-            if int(selection) not in range(len(options) + 1):
+            if int(selection) not in range(len(options) + 1) + [99]:
                 raise ValueError
             selection = int(selection)
             break
         except ValueError:
             selection = raw_input("Enter a number from the list above: ")
     if selection == 0:
+        return ""
+    if selection == 99:
         return None
+    print options[selection - 1]
     return options[selection - 1]
