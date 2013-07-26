@@ -40,6 +40,9 @@ setup(
         ]
     {% endif %}
     ),
+    scripts=[
+        "distribute_setup.py",
+    ],
     include_package_data=True,
     zip_safe=False,
     install_requires=[{% if project.requires %}
