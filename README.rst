@@ -1,7 +1,7 @@
 pythong
 =======
 
-:Author: David Gay <oddshocks@gmail.com>
+:Author: David Gay <oddshocks@riseup.net>
 
 Set up a minimal, yet comfortable structure for a Python project.
 
