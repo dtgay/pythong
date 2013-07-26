@@ -35,4 +35,5 @@ setup(name='pythong',
       entry_points="""
       [console_scripts]
       pythong = pythong:parse_command
-      """)
+      """
+)
