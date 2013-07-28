@@ -114,11 +114,42 @@ def prompt_new_project(name=None, snap=False):
 
 def write_setup_files(project_dir):
     config_data = read_config(os.path.join(project_dir, '.pythong'))
+    config_data = _do_line_wrap(config_data)
     with open(join(config_data['project_dir'],
                    'distribute_setup.py'), 'w') as f:
         f.write(distribute_template.render(project=config_data))
     with open(config_data['setup_file'], 'w') as f:
         f.write(setup_template.render(project=config_data))
+
+
+def _do_line_wrap(config_data):
+    maxlen = 79
+    max_first_line = maxlen - len('    description="",')
+
+    if len(config_data['description']) < max_first_line:
+        config_data['description'] = '"' + config_data['description'] + '"'
+        return config_data
+
+    first_line = '("%s"\n'
+    following_line = '        "%s"\n'
+    last_line = '        "%s")'
+
+    if len(config_data['description']) > max_first_line:
+        out = ''
+        buff = config_data['description']
+        out += first_line % buff[0:79 - len('    description=(""')]
+        buff = buff[79 - len('    description=(""'):]
+        while len(buff) > 0:
+            if len(buff) < 79 - len(following_line):
+                out += last_line % buff
+                break
+            out += following_line % buff[0:79 - len(following_line)]
+            buff = buff[79 - len(following_line):]
+        config_data['description'] = out
+    else:
+        config_data['description'] = '"' + config_data['description'] + '"'
+
+    return config_data
 
 
 def prompt_classifiers(applicable=None):
