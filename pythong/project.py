@@ -3,6 +3,7 @@
 import os
 import jinja2
 import readline
+from textwrap import wrap
 from os.path import join
 from pythong.util import (ask_yes_no, prompt_input, determine_directories,
                           write_config, read_config)
@@ -114,11 +115,52 @@ def prompt_new_project(name=None, snap=False):
 
 def write_setup_files(project_dir):
     config_data = read_config(os.path.join(project_dir, '.pythong'))
+    config_data = _do_line_wrap(config_data)
     with open(join(config_data['project_dir'],
                    'distribute_setup.py'), 'w') as f:
         f.write(distribute_template.render(project=config_data))
     with open(config_data['setup_file'], 'w') as f:
         f.write(setup_template.render(project=config_data))
+
+
+def _do_line_wrap(config_data):
+    maxlen = 79
+    max_first_line = maxlen - len('    description="",')
+
+    if len(config_data['description']) < max_first_line:
+        config_data['description'] = '"' + config_data['description'] + '"'
+        return config_data
+
+    first_line = '("%s"\n'
+    following_line = '        "%s"\n'
+    last_line = '        "%s")'
+
+    if len(config_data['description']) > max_first_line:
+        out = ''
+        buff = config_data['description']
+
+        tmp, buff = unwrap(buff, max_first_line)
+        out += first_line % tmp
+
+        while len(buff) > 0:
+            if len(buff) < 79 - len(following_line):
+                out += last_line % buff
+                break
+            tmp, buff = unwrap(buff, 79 - len(following_line))
+            out += following_line % tmp
+        config_data['description'] = out
+    else:
+        config_data['description'] = '"' + config_data['description'] + '"'
+
+    return config_data
+
+
+def unwrap(inp, maxlen):
+    q.q(maxlen)
+    first = wrap(inp, width=maxlen - 1)[0] + ' '
+    q.q(first)
+    print first
+    return first, inp.rpartition(first)[2]
 
 
 def prompt_classifiers(applicable=None):
