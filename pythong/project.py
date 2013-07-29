@@ -3,6 +3,7 @@
 import os
 import jinja2
 import readline
+from textwrap import wrap
 from os.path import join
 from pythong.util import (ask_yes_no, prompt_input, determine_directories,
                           write_config, read_config)
@@ -137,19 +138,29 @@ def _do_line_wrap(config_data):
     if len(config_data['description']) > max_first_line:
         out = ''
         buff = config_data['description']
-        out += first_line % buff[0:79 - len('    description=(""')]
-        buff = buff[79 - len('    description=(""'):]
+
+        tmp, buff = unwrap(buff, max_first_line)
+        out += first_line % tmp
+
         while len(buff) > 0:
             if len(buff) < 79 - len(following_line):
                 out += last_line % buff
                 break
-            out += following_line % buff[0:79 - len(following_line)]
-            buff = buff[79 - len(following_line):]
+            tmp, buff = unwrap(buff, 79 - len(following_line))
+            out += following_line % tmp
         config_data['description'] = out
     else:
         config_data['description'] = '"' + config_data['description'] + '"'
 
     return config_data
+
+
+def unwrap(inp, maxlen):
+    q.q(maxlen)
+    first = wrap(inp, width=maxlen - 1)[0] + ' '
+    q.q(first)
+    print first
+    return first, inp.rpartition(first)[2]
 
 
 def prompt_classifiers(applicable=None):
