@@ -38,7 +38,9 @@ def prompt_new_project(name=None, snap=False):
 
     if os.path.isdir(name):
         print "A project with that name already exists here."
-        exit(1)
+        if not ask_yes_no("Would you like to convert your existing setup.py "
+                          "to use distribute?"):
+            exit(1)
 
     project.update(determine_directories(name, os.getcwd(), snap))
 
@@ -58,9 +60,13 @@ def prompt_new_project(name=None, snap=False):
     print "Creating structure for new Python project {}.".format(
         project.get("name"))
     for dirname in project.get("directories", []):
-        os.mkdir(dirname)
-    for f in project.get("files", []):
-        project['init_file'] = open(f, 'w').close()
+        try:
+            os.mkdir(dirname)
+            for f in project.get("files", []):
+                project['init_file'] = open(f, 'w').close()
+        except OSError as e:
+            if e.errno != 17:
+                raise e
 
     # Create setup.py file
     # first, set sane defaults
@@ -97,6 +103,8 @@ def prompt_new_project(name=None, snap=False):
             requires=[x.strip() for x in
                       prompt_input("Requirements (comma delimited): ",
                                    default="").split(',')]))
+        if os.path.exists(project['setup_file']):
+            os.rename(project['setup_file'], project['setup_file'] + '.old')
     else:
         print "Generating skeletal setup files."
 
