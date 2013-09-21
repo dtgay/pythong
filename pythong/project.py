@@ -62,8 +62,12 @@ def prompt_new_project(name=None, snap=False):
     for dirname in project.get("directories", []):
         try:
             os.mkdir(dirname)
-            for f in project.get("files", []):
-                project['init_file'] = open(f, 'w').close()
+        except OSError as e:
+            if e.errno != 17:
+                raise e
+    for f in project.get("files", []):
+        try:
+            project['init_file'] = open(f, 'w').close()
         except OSError as e:
             if e.errno != 17:
                 raise e
