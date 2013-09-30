@@ -72,6 +72,6 @@ Contributors
 
 Feel free to add your name.
 
--   David Gay  <oddshocks@gmail.com>
+-   David Gay  <oddshocks@riseup.net>
 -   Ryan Scott Brown  <ryansb@csh.rit.edu>
 -   Ralph Bean  <rbean@redhat.com>
