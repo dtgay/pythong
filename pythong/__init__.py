@@ -12,7 +12,7 @@ def parse_command():
                    help='name of project to be created')
     # TODO: have version be pulled from setup.py variable?
     p.add_argument('--version', action='version',
-                   version='you are using version 0.0.1 of the pythong')
+                   version='Pythong version 0.6.4')
     p.add_argument('-l', '--label', action='store_true',
                    help='add PyPI classifiers to your pythong')
     p.add_argument('-p', '--pin', nargs='+', type=str, action='append',
