@@ -107,7 +107,8 @@ def prompt_new_project(name=None, snap=False):
             requires=[x.strip() for x in
                       prompt_input("Requirements (comma delimited): ",
                                    default="").split(',')]))
-        if os.path.exists(project['setup_file']):
+        if os.path.exists(project['setup_file']) \
+           and os.path.getsize(project['setup_file']) != 0:
             os.rename(project['setup_file'], project['setup_file'] + '.old')
     else:
         print "Generating skeletal setup files."
