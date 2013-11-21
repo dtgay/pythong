@@ -7,10 +7,10 @@ try:
 except ImportError:
     pass
 
-version = '0.6.4'
+import pythong
 
 setup(name='pythong',
-      version=version,
+      version=pythong.__version__,
       description="Set up a minimal, yet comfortable structure \
                     for a Python project",
       classifiers=[
