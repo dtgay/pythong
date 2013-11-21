@@ -6,7 +6,7 @@ from pythong.command import label, pin, wash
 from pythong.project import prompt_classifiers, prompt_new_project
 
 
-__version__ = "0.6.4"
+__version__ = "0.6.5"
 
 def parse_command():
     p = argparse.ArgumentParser()
