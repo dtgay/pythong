@@ -2,11 +2,10 @@
 # -*- coding: utf8 -*-
 
 import argparse
+from pythong.version import __version__
 from pythong.command import label, pin, wash
 from pythong.project import prompt_classifiers, prompt_new_project
 
-
-__version__ = "0.6.5"
 
 def parse_command():
     p = argparse.ArgumentParser()
