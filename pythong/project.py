@@ -3,6 +3,7 @@
 import os
 import jinja2
 import readline
+from textwrap import wrap
 from os.path import join
 from pythong.util import (ask_yes_no, prompt_input, determine_directories,
                           write_config, read_config)
@@ -37,7 +38,9 @@ def prompt_new_project(name=None, snap=False):
 
     if os.path.isdir(name):
         print "A project with that name already exists here."
-        exit(1)
+        if not ask_yes_no("Would you like to convert your existing setup.py "
+                          "to use distribute?"):
+            exit(1)
 
     project.update(determine_directories(name, os.getcwd(), snap))
 
@@ -57,9 +60,17 @@ def prompt_new_project(name=None, snap=False):
     print "Creating structure for new Python project {}.".format(
         project.get("name"))
     for dirname in project.get("directories", []):
-        os.mkdir(dirname)
+        try:
+            os.mkdir(dirname)
+        except OSError as e:
+            if e.errno != 17:
+                raise e
     for f in project.get("files", []):
-        project['init_file'] = open(f, 'w').close()
+        try:
+            project['init_file'] = open(f, 'w').close()
+        except OSError as e:
+            if e.errno != 17:
+                raise e
 
     # Create setup.py file
     # first, set sane defaults
@@ -96,6 +107,9 @@ def prompt_new_project(name=None, snap=False):
             requires=[x.strip() for x in
                       prompt_input("Requirements (comma delimited): ",
                                    default="").split(',')]))
+        if os.path.exists(project['setup_file']) \
+           and os.path.getsize(project['setup_file']) != 0:
+            os.rename(project['setup_file'], project['setup_file'] + '.old')
     else:
         print "Generating skeletal setup files."
 
@@ -114,11 +128,52 @@ def prompt_new_project(name=None, snap=False):
 
 def write_setup_files(project_dir):
     config_data = read_config(os.path.join(project_dir, '.pythong'))
+    config_data = _do_line_wrap(config_data)
     with open(join(config_data['project_dir'],
                    'distribute_setup.py'), 'w') as f:
         f.write(distribute_template.render(project=config_data))
     with open(config_data['setup_file'], 'w') as f:
         f.write(setup_template.render(project=config_data))
+
+
+def _do_line_wrap(config_data):
+    maxlen = 79
+    max_first_line = maxlen - len('    description="",')
+
+    if len(config_data['description']) < max_first_line:
+        config_data['description'] = '"' + config_data['description'] + '"'
+        return config_data
+
+    first_line = '("%s"\n'
+    following_line = '        "%s"\n'
+    last_line = '        "%s")'
+
+    if len(config_data['description']) > max_first_line:
+        out = ''
+        buff = config_data['description']
+
+        tmp, buff = unwrap(buff, max_first_line)
+        out += first_line % tmp
+
+        while len(buff) > 0:
+            if len(buff) < 79 - len(following_line):
+                out += last_line % buff
+                break
+            tmp, buff = unwrap(buff, 79 - len(following_line))
+            out += following_line % tmp
+        config_data['description'] = out
+    else:
+        config_data['description'] = '"' + config_data['description'] + '"'
+
+    return config_data
+
+
+def unwrap(inp, maxlen):
+    q.q(maxlen)
+    first = wrap(inp, width=maxlen - 1)[0] + ' '
+    q.q(first)
+    print first
+    return first, inp.rpartition(first)[2]
 
 
 def prompt_classifiers(applicable=None):
@@ -153,10 +208,13 @@ def recurse_prompt(tree, sofar=""):
 
     selection = prompt_optionlist(sorted(tree.keys()))
 
-    if selection is None:
-        if sofar == "":
+    if not selection:
+        if selection is None and sofar == "":
             return False
-        return None
+        elif selection == '':
+            return sofar[:-4]
+        else:
+            return None
     sofar += selection + " :: "
     if not any(tree.values()):
         # get rid of trailing " :: "
@@ -178,15 +236,19 @@ def prompt_optionlist(options):
     for num, opt in zip(range(1, len(options) + 1), options):
         print "[{num}] {opt}".format(num=num, opt=opt)
     print "[0] None"
+    print "[99] Cancel"
     selection = raw_input("\nSelect an option from the list above: ")
     while True:
         try:
-            if int(selection) not in range(len(options) + 1):
+            if int(selection) not in range(len(options) + 1) + [99]:
                 raise ValueError
             selection = int(selection)
             break
         except ValueError:
             selection = raw_input("Enter a number from the list above: ")
     if selection == 0:
+        return ""
+    if selection == 99:
         return None
+    print options[selection - 1]
     return options[selection - 1]

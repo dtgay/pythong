@@ -7,10 +7,18 @@ try:
 except ImportError:
     pass
 
-version = '0.0.6'
+
+"""This manual version import is needed for setup.py
+if we want to have the version pulled from one location
+because if we import python.version to get it, the install
+will fail because jinja2 will be missing."""
+__version__ = "" # this will be pulled from version.py
+with open('pythong/version.py') as f:
+    exec(f)
+
 
 setup(name='pythong',
-      version=version,
+      version=__version__,
       description="Set up a minimal, yet comfortable structure \
                     for a Python project",
       classifiers=[
@@ -23,7 +31,7 @@ setup(name='pythong',
       ],
       keywords='python development project bootstrap',
       author='David Gay',
-      author_email='oddshocks@gmail.com',
+      author_email='oddshocks@riseup.net',
       url='http://github.com/oddshocks/pythong',
       license='GPLv3+',
       packages=find_packages(exclude=['ez_setup', 'tests']),
@@ -35,4 +43,5 @@ setup(name='pythong',
       entry_points="""
       [console_scripts]
       pythong = pythong:parse_command
-      """)
+      """
+)

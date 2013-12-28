@@ -17,7 +17,7 @@ version = "{{ project.version }}"
 setup(
     name="{{ project.shortname }}",
     version=version,
-    description="{{ project.description|wordwrap(79, true) }}",
+    description={{ project.description }},
     classifiers=[{% if project.classifiers %}
         "{{ "\",\n        \"".join(project.classifiers) }}",
     {% endif %}],
@@ -40,6 +40,9 @@ setup(
         ]
     {% endif %}
     ),
+    scripts=[
+        "distribute_setup.py",
+    ],
     include_package_data=True,
     zip_safe=False,
     install_requires=[{% if project.requires %}

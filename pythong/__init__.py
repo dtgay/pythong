@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import argparse
+from pythong.version import __version__
 from pythong.command import label, pin, wash
 from pythong.project import prompt_classifiers, prompt_new_project
 
@@ -10,9 +11,8 @@ def parse_command():
     p = argparse.ArgumentParser()
     p.add_argument('name', nargs='?', default='',
                    help='name of project to be created')
-    # TODO: have version be pulled from setup.py variable?
     p.add_argument('--version', action='version',
-                   version='you are using version 0.0.1 of the pythong')
+                   version="Pythong version {}".format(__version__))
     p.add_argument('-l', '--label', action='store_true',
                    help='add PyPI classifiers to your pythong')
     p.add_argument('-p', '--pin', nargs='+', type=str, action='append',
