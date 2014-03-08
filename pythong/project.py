@@ -74,6 +74,15 @@ def prompt_new_project(name=None, snap=False):
         except OSError as e:
             if e.errno != 17:
                 raise e
+ 
+    # Write config file before we add all of the setup.py info to
+    # the project dict. We don't want or need that in there. We
+    # only need the directory and file info.
+    try:
+        write_config(os.path.join(project['project_dir'], '.pythong'), project)
+        print "Configuration file written."
+    except:
+        print "Problem writing config file."
 
     # Create setup.py file
     # first, set sane defaults
@@ -116,11 +125,6 @@ def prompt_new_project(name=None, snap=False):
     else:
         print "Generating skeletal setup files."
 
-    try:
-        write_config(os.path.join(project['project_dir'], '.pythong'), project)
-        print "Configuration file written."
-    except:
-        print "Problem writing config file."
 
     try:
         write_setup_files(project['project_dir'])

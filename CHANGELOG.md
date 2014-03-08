@@ -7,11 +7,14 @@ in commit history and add details of previous updates.
 
 # 0.7
 
-*	New projects now come with an empty manifest file
+*   The `.pythong` config file now only contains information related
+    to file locations and directories, not `setup.py`-type data.
 
-*	Clarify a message or two
+*   New projects now come with an empty manifest file
 
-*	Remove some accidental `q` logging traces and an unused import
+*   Clarify a message or two
+
+*   Remove some accidental `q` logging traces and an unused import
 
 # 0.6.6
 
