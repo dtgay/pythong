@@ -168,9 +168,7 @@ def _do_line_wrap(config_data):
 
 
 def unwrap(inp, maxlen):
-    q.q(maxlen)
     first = wrap(inp, width=maxlen - 1)[0] + ' '
-    q.q(first)
     print first
     return first, inp.rpartition(first)[2]
 
