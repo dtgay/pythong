@@ -2,7 +2,6 @@
 # -*- coding: utf8 -*-
 import os
 import jinja2
-import readline
 from textwrap import wrap
 from os.path import join
 from pythong.util import (ask_yes_no, prompt_input, determine_directories,
