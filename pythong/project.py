@@ -104,7 +104,7 @@ def prompt_new_project(name=None, snap=False):
             url=prompt_input("Project URL: "),
             license=prompt_input("License: "),
             requires=[x.strip() for x in
-                      prompt_input("Requirements (comma delimited): ",
+                      prompt_input("Requirements (separate with commas): ",
                                    default="").split(',')]))
         if os.path.exists(project['setup_file']) \
            and os.path.getsize(project['setup_file']) != 0:
