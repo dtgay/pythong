@@ -5,9 +5,9 @@ A bit late, but I am starting a changelog. Feel free to go back
 in commit history and add details of previous updates.
 -- message written at version 0.6.4 release
 
-# 1.0
+# 0.7
 
-*	New projects now come with a starter manifest file
+*	New projects now come with an empty manifest file
 
 *	Clarify a message or two
 
