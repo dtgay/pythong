@@ -37,14 +37,18 @@ Or, for a quicker setup... ::
 
 Including the project name in the command is optional.
 
-Since version 0.0.2, you can **wash** your pythong of messy build files::
+You can **wash** your pythong of messy build files::
 
     $ pythong --wash
 
-Since version 0.0.3, Pythong will help you add classifiers to your setup.py
+Pythong will help you add classifiers to your setup.py
 during project creation, or after the fact with the **label** command::
 
     $ pythong --label
+
+Files and directories can be added to the manifest file with **pin**::
+
+    $ pythong --pin [FILE_OR_DIRECTORY]
 
 A full list of options can be seen with::
 
