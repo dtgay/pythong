@@ -44,13 +44,15 @@ def prompt_new_project(name=None, snap=False):
     project.update(determine_directories(name, os.getcwd(), snap))
 
     # Files
+    project['manifest'] = join(project['project_dir'], "MANIFEST.in")
     project['setup_file'] = join(project['project_dir'], "setup.py")
     project['init_file'] = join(project['source_dir'], "__init__.py")
     if project.get('tests_dir'):
         project['test_init_file'] = join(project['tests_dir'], "__init__.py")
         project['test_file'] = join(project['tests_dir'], name + "_tests.py")
 
-    project['files'] = [project['setup_file'], project['init_file']]
+    project['files'] = [project['manifest'], project['setup_file'],
+                        project['init_file']]
     if project.get('tests_dir'):
         project['files'].extend([project['test_init_file'],
                                  project['test_file']])
@@ -58,12 +60,14 @@ def prompt_new_project(name=None, snap=False):
     # Create project skeleton
     print "Creating structure for new Python project {}.".format(
         project.get("name"))
+    # Create directories
     for dirname in project.get("directories", []):
         try:
             os.mkdir(dirname)
         except OSError as e:
             if e.errno != 17:
                 raise e
+    # Create files
     for f in project.get("files", []):
         try:
             project['init_file'] = open(f, 'w').close()

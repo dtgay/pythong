@@ -43,8 +43,10 @@ def pin(pin_list):
     for pin_item in pin_list[0]:
         if os.path.isfile(pin_item):
             manifest.write('include {}\n'.format(pin_item))
-        else:
+        elif os.path.isdir(pin_item):
             manifest.write('recursive-include {} *\n'.format(pin_item))
+        else:
+            pass # there is no file or dir with that name
     manifest.close()
 
 
