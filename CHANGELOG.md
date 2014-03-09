@@ -5,6 +5,12 @@ A bit late, but I am starting a changelog. Feel free to go back
 in commit history and add details of previous updates.
 -- message written at version 0.6.4 release
 
+# 0.7.1
+
+*   `.pythong` file now contains the data it used to prior to 0.7.
+    The removal of this caused more problems than it solved,
+    at least for now.
+
 # 0.7
 
 *   The `.pythong` config file now only contains information related
