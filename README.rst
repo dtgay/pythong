@@ -1,9 +1,12 @@
 pythong
 =======
 
-:Author: David Gay <dgay@riseup.net>
+:Author: David Gay <hello@davidgay.org>
 
 Set up a minimal, yet comfortable structure for a Python project.
+
+⚠️ This project is no longer maintained. As of 2020, it hasn't been updated
+in six or seven years. Use at your own risk.
 
 Features
 --------
@@ -76,6 +79,6 @@ Contributors
 
 Feel free to add your name.
 
--   David Gay  <oddshocks@riseup.net>
+-   David Gay  <hello@davidgay.org>
 -   Ryan Scott Brown  <ryansb@csh.rit.edu>
 -   Ralph Bean  <rbean@redhat.com>
